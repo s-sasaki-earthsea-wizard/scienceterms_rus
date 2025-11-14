@@ -1,4 +1,5 @@
 import { WrongAnswer } from '../types';
+import { useSpeech } from '../hooks/useSpeech';
 
 interface ResultScreenProps {
   correctCount: number;
@@ -9,6 +10,7 @@ interface ResultScreenProps {
 function ResultScreen({ correctCount, wrongAnswers, onRestart }: ResultScreenProps) {
   const TOTAL_QUESTIONS = 10;
   const accuracy = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+  const { speak } = useSpeech();
 
   return (
     <div className="result-screen">
@@ -32,7 +34,16 @@ function ResultScreen({ correctCount, wrongAnswers, onRestart }: ResultScreenPro
                 <p className="user-answer">あなたの回答: {wrong.userAnswer}</p>
                 <div className="correct-info">
                   <p>日本語: {wrong.japanese}</p>
-                  <p>ロシア語: {wrong.russian}</p>
+                  <p>
+                    ロシア語: {wrong.russian}
+                    <button
+                      className="speaker-button speaker-button-inline"
+                      onClick={() => speak(wrong.russian)}
+                      title="音声を再生"
+                    >
+                      🔊
+                    </button>
+                  </p>
                 </div>
               </li>
             ))}

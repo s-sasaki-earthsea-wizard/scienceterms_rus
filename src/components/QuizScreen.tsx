@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { QuizMode, PhysicsTerm, WrongAnswer } from '../types';
 import physicsTermsData from '../physicsTerms.json';
+import { useSpeech } from '../hooks/useSpeech';
 
 interface QuizScreenProps {
   mode: QuizMode;
@@ -17,6 +18,7 @@ function QuizScreen({ mode, onGameEnd }: QuizScreenProps) {
   const [answerState, setAnswerState] = useState<AnswerState>('unanswered');
   const [correctCount, setCorrectCount] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState<WrongAnswer[]>([]);
+  const { speak } = useSpeech();
 
   const TOTAL_QUESTIONS = 10;
 
@@ -111,6 +113,15 @@ function QuizScreen({ mode, onGameEnd }: QuizScreenProps) {
 
       <div className="question-container">
         <h2>{questionText}</h2>
+        {mode === 'ru-to-ja' && (
+          <button
+            className="speaker-button"
+            onClick={() => speak(currentTerm.russian)}
+            title="音声を再生"
+          >
+            🔊
+          </button>
+        )}
       </div>
 
       {answerState === 'unanswered' ? (
@@ -119,7 +130,7 @@ function QuizScreen({ mode, onGameEnd }: QuizScreenProps) {
             type="text"
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 checkAnswer();
               }
@@ -145,7 +156,16 @@ function QuizScreen({ mode, onGameEnd }: QuizScreenProps) {
           )}
           <div className="term-display">
             <p>日本語: {currentTerm.japanese}</p>
-            <p>ロシア語: {currentTerm.russian}</p>
+            <p>
+              ロシア語: {currentTerm.russian}
+              <button
+                className="speaker-button speaker-button-inline"
+                onClick={() => speak(currentTerm.russian)}
+                title="音声を再生"
+              >
+                🔊
+              </button>
+            </p>
           </div>
           <button onClick={handleNext} className="next-button">
             {questionNumber + 1 >= TOTAL_QUESTIONS ? '結果を見る' : '次へ'}

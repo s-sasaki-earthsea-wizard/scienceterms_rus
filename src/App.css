@@ -81,12 +81,14 @@ h1 {
   padding: 2rem;
   background-color: #e3f2fd;
   border-radius: 8px;
+  position: relative;
 }
 
 .question-container h2 {
   font-size: 2rem;
   color: #1976d2;
   margin: 0;
+  margin-bottom: 1rem;
 }
 
 .answer-input {
@@ -191,6 +193,33 @@ h1 {
 
 .next-button:hover {
   background-color: #F57C00;
+}
+
+/* Speaker Button */
+.speaker-button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.8;
+}
+
+.speaker-button:hover {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.speaker-button:active {
+  transform: scale(1.1);
+}
+
+.speaker-button-inline {
+  font-size: 1.3rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  padding: 0.25rem;
 }
 
 /* ResultScreen */
